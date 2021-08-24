@@ -57,27 +57,42 @@ public class ValidateCreditCard {
         char[] charArrayCCNum = Long.toString(ccNum).toCharArray();
         if(charArrayCCNum.length < 14 || charArrayCCNum.length > 19) return false; // Guard for invalid length
 
-        long checkDigit = charArrayCCNum[charArrayCCNum.length - 1];
+        char checkDigit = charArrayCCNum[charArrayCCNum.length - 1];
 
         char[] removedLastDigitCharArray = Arrays.copyOfRange(charArrayCCNum,0, charArrayCCNum.length -2);
 
         long sum = 0;
-        for(int i = 0; i < removedLastDigitCharArray.length; i++){
+        int count = 0;
+        for(int i = removedLastDigitCharArray.length; i == 0; i--, count++){
+            System.out.println("i: " + i + " array: "+ removedLastDigitCharArray[i] + " count: " + count);
+            int addable = 0;
+            if (count > 0 && count % 2 != 0){
+                long doubled = Long.parseLong(Character.toString(removedLastDigitCharArray[i]))  * 2L;
+                System.out.println(doubled);
 
-            long addable = 0;
-            if (i == 1 || i % 3 == 0){
-                long doubled = removedLastDigitCharArray[i] * 2L;
                 if(doubled > 9L){
                     char[] doubleDigitCharArray = Long.toString(doubled).toCharArray();
-                    addable = doubleDigitCharArray[0] + doubleDigitCharArray[1];
+
+                    addable = Integer.parseInt(Character.toString(doubleDigitCharArray[0])) + Integer.parseInt(Character.toString(doubleDigitCharArray[1])) ;
+                    System.out.println(addable);
+
+                }else{
+                    addable = Integer.parseInt(Long.toString(doubled));
                 }
             } else{
-                addable = removedLastDigitCharArray[i];
+                addable = Integer.parseInt(Character.toString(removedLastDigitCharArray[i]));
             }
-
+            System.out.println("addable " + addable);
             sum += addable;
+            System.out.println("sum: " + sum);
         }
-        long lastSumDigit = Long.toString(sum).toCharArray()[Long.toString(sum).toCharArray().length-1];
+
+        char lastSumDigit = Long.toString(sum).toCharArray()[Long.toString(sum).toCharArray().length-1];
+        long lastSumMinusTen = 10L - Long.parseLong(Character.toString(lastSumDigit));
+
+        System.out.println();
+        System.out.println(lastSumMinusTen);
+        System.out.println(checkDigit);
 
         return checkDigit == lastSumDigit;
     }
