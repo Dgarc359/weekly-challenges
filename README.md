@@ -1,5 +1,7 @@
 # Challenge description for 8/23
 
+Completed with junit tests!
+
 **Java:** \
 Create a function that takes a number as an argument and returns true if the number is a valid credit card number, false otherwise.
 
